@@ -21,6 +21,7 @@ package com.malikk.shield;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import com.malikk.shield.plugins.Protect_WorldGuard;
 import com.malikk.shield.regions.ShieldRegion;
 
 import java.util.HashSet;
@@ -95,7 +96,7 @@ public class ShieldConfig {
 							return region;
 						}
 						
-						return plugin.worldGuard.getHighestPriority(worldGuardRegions);
+						return ((Protect_WorldGuard) plugin.getProtectPlugin("WorldGuard")).getHighestPriority(worldGuardRegions);
 					}else{
 						return region;
 					}

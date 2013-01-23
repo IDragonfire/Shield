@@ -128,7 +128,7 @@ public class Protect_AntiShare implements Listener, Protect {
 	public HashSet<ShieldRegion> getRegions(){
 		HashSet<ShieldRegion> regions = new HashSet<ShieldRegion>();
 		for(Region region : regionManager.getAllRegions()){
-		    ShieldRegion sregion = shield.rm.createShieldRegion(region.getName(), shield.antishare, Bukkit.getWorld(region.getWorldName()));
+		    ShieldRegion sregion = shield.rm.createShieldRegion(region.getName(), this, Bukkit.getWorld(region.getWorldName()));
 		    regions.add(sregion);
 		}
 		return regions;
@@ -146,7 +146,7 @@ public class Protect_AntiShare implements Listener, Protect {
         if(region==null){
             return regions;
         }
-        ShieldRegion sregion = shield.rm.createShieldRegion(region.getName(), shield.antishare, Bukkit.getWorld(region.getWorldName()));
+        ShieldRegion sregion = shield.rm.createShieldRegion(region.getName(), this, Bukkit.getWorld(region.getWorldName()));
         regions.add(sregion);
         return regions;
 	}

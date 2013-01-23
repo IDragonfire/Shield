@@ -54,7 +54,7 @@ public interface ShieldAPI {
 	 * Gets the highest priority ShieldRegion by the passed in name
 	 * 
 	 * @param name the name of the desired region
-	 * @return {@link ShieldRegion} - The highest priority ShieldRegion
+     * @return {@link ShieldRegion} - The highest priority ShieldRegion
 	 * @throws RegionNotFoundException
 	 */
 	public ShieldRegion getPriorityRegion(String name) throws RegionNotFoundException;

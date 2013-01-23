@@ -19,6 +19,7 @@
 
 package com.malikk.shield;
 
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,12 +50,7 @@ public class Shield extends JavaPlugin{
 	private boolean foundPlugin = false;
 
 	//Plugin Classes
-	public Protect_PreciousStones preciousStones = null;
-	public Protect_Regios regios = null;
-	public Protect_Residence residence = null;
-	public Protect_WorldGuard worldGuard = null;
-	public Protect_Towny towny = null;
-	public Protect_AntiShare antishare = null;
+	public HashMap<String, Protect> protectPlugins;
 
 	//Shield Classes
 	public PartialSupportNotifier notifier = new PartialSupportNotifier(this);
@@ -79,8 +75,6 @@ public class Shield extends JavaPlugin{
 		flagPersister.load();
 
 		new MetricsHandler(this);
-
-		log("Enabled");
 	}
 
 	@Override
@@ -88,8 +82,6 @@ public class Shield extends JavaPlugin{
 		flagPersister.save();
 
 		getServer().getScheduler().cancelTasks(this);
-
-		log("Disabled");
 	}
 
 	public void log(String msg){
@@ -120,51 +112,54 @@ public class Shield extends JavaPlugin{
 	}
 
 	private void loadPlugins(){
-
-		log("Scanning for supported protection plugins...");
+                protectPlugins = new HashMap<String, Protect>();
 
 		//Attempt to load PreciousStones
 		if (foundClass("net.sacredlabyrinth.Phaed.PreciousStones.PreciousStones")){
-			preciousStones = new Protect_PreciousStones(this);
-			log(String.format("Detected PreciousStones: %s", preciousStones.isEnabled() ? "Hooked v" + preciousStones.getVersion() : "Waiting"));
+		        loadPluginHook(new Protect_PreciousStones(this));			
 		}
 
 		//Attempt to load Regios
 		if (foundClass("net.jzx7.regios.RegiosPlugin")){
-			regios = new Protect_Regios(this);
-			log(String.format("Detected Regios: %s", regios.isEnabled() ? "Hooked v" + regios.getVersion() : "Waiting"));
+		        loadPluginHook(new Protect_Regios(this));
 		}
 
 		//Attempt to load Residence
 		if (foundClass("com.bekvon.bukkit.residence.Residence")){
-			residence = new Protect_Residence(this);
-			log(String.format("Detected Residence: %s", residence.isEnabled() ? "Hooked v" + residence.getVersion() : "Waiting"));
+		        loadPluginHook(new Protect_Residence(this));
 		}
 
 		//Attempt to load WorldGuard
 		if (foundClass("com.sk89q.worldguard.bukkit.WorldGuardPlugin")){
-			worldGuard = new Protect_WorldGuard(this);
-			log(String.format("Detected WorldGuard: %s", worldGuard.isEnabled() ? "Hooked v" + worldGuard.getVersion() : "Waiting"));
+		        loadPluginHook(new Protect_WorldGuard(this));
 		}
 
 		//Attempt to load Towny
 		if (foundClass("com.palmergames.bukkit.towny.Towny")){
-			towny = new Protect_Towny(this);
-			log(String.format("Detected Towny: %s", towny.isEnabled() ? "Hooked v" + towny.getVersion() : "Waiting"));
+		        loadPluginHook(new Protect_Towny(this));
 		}
 		
-		// Attempt to load AntiShare
-		if (foundClass("com.turt2live.antishare.AntiShare")){
-			antishare=new Protect_AntiShare(this);
-			log(String.format("Detected AntiShare: %s", antishare.isEnabled() ? "Hooked v" + antishare.getVersion() : "Waiting"));
-		}
+		//Attempt to load Factions v1.7+
+                if (foundClass("com.massivecraft.factions.Factions")){
+                        loadPluginHook(new Protect_Towny(this));
+                }
 
 		if (foundPlugin == false){
 			log("No supported protection plugins found.");
 		}
 	}
 
-	private boolean foundClass(String className){
+    private void loadPluginHook(Protect hook) {
+        this.protectPlugins.put(hook.getPluginName(), hook);
+        log(String.format("Detected " + hook.getPluginName() + ": %s", hook.isEnabled() ? "Hooked v" + hook.getVersion() : "Waiting"));
+        
+    }
+    
+    public Protect getProtectPlugin(String name) {
+        return this.protectPlugins.get(name);
+    }
+
+    private boolean foundClass(String className){
 		try{
 			Class.forName(className);
 			foundPlugin = true;

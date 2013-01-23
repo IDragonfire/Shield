@@ -63,7 +63,7 @@ public class Protect_Regios implements Listener, Protect {
 
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (RegiosPlugin) p;
-				shield.pm.addClassToInstantiatedSet(shield.regios);
+				shield.pm.addClassToInstantiatedSet(this);
 			}
 		}
 	}
@@ -75,7 +75,7 @@ public class Protect_Regios implements Listener, Protect {
 
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (RegiosPlugin) p;
-				shield.pm.addClassToInstantiatedSet(shield.regios);
+				shield.pm.addClassToInstantiatedSet(this);
 				shield.log(String.format("Hooked %s v" + getVersion(), name));
 			}
 		}
@@ -112,7 +112,7 @@ public class Protect_Regios implements Listener, Protect {
 
 		if (protect.getRegions() != null){
 			for (Region r: protect.getRegions()){
-				regions.add(shield.rm.createShieldRegion(r.getName(), shield.regios, r.getWorld()));
+				regions.add(shield.rm.createShieldRegion(r.getName(), this, r.getWorld()));
 			}
 		}
 
@@ -125,7 +125,7 @@ public class Protect_Regios implements Listener, Protect {
 
 		if (protect.getRegions(entity.getLocation()) != null){
 			for (Region r: protect.getRegions(entity.getLocation())){
-				regions.add(shield.rm.createShieldRegion(r.getName(), shield.regios, r.getWorld()));
+				regions.add(shield.rm.createShieldRegion(r.getName(), this, r.getWorld()));
 			}
 		}
 
@@ -138,7 +138,7 @@ public class Protect_Regios implements Listener, Protect {
 
 		if (protect.getRegions(loc) != null){
 			for (Region r: protect.getRegions(loc)){
-				regions.add(shield.rm.createShieldRegion(r.getName(), shield.regios, r.getWorld()));
+				regions.add(shield.rm.createShieldRegion(r.getName(), this, r.getWorld()));
 			}
 		}
 

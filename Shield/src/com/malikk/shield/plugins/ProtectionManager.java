@@ -154,15 +154,15 @@ public class ProtectionManager {
 	public void addClassToInstantiatedSet(Protect protect){
 		if (protect != null){
 			plugins.add(protect);
+			// TODO: log .. hooked message here
 		}
 	}
 
 	public HashSet<ShieldRegion> validateSet(HashSet<ShieldRegion> set) throws RegionNotFoundException{
 		if (set.size() != 0){
 			return set;
-		}else{
-			throw new RegionNotFoundException();
 		}
+	    throw new RegionNotFoundException();
 	}
 
 	public Protect getProtectObjectFromName(String plugin){

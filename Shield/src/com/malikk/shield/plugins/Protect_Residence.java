@@ -70,7 +70,7 @@ public class Protect_Residence implements Listener, Protect {
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (Residence) p;
 				rmanager = Residence.getResidenceManager();
-				shield.pm.addClassToInstantiatedSet(shield.residence);
+				shield.pm.addClassToInstantiatedSet(this);
 			}
 		}
 	}
@@ -83,7 +83,7 @@ public class Protect_Residence implements Listener, Protect {
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (Residence) p;
 				rmanager = Residence.getResidenceManager();
-				shield.pm.addClassToInstantiatedSet(shield.residence);
+				shield.pm.addClassToInstantiatedSet(this);
 				shield.log(String.format("Hooked %s v" + getVersion(), name));
 			}
 		}
@@ -120,7 +120,7 @@ public class Protect_Residence implements Listener, Protect {
 
 		try{
 			for (String r: rmanager.getResidenceList()){
-				regions.add(shield.rm.createShieldRegion(r, shield.residence, Bukkit.getWorld(rmanager.getByName(r).getWorld())));
+				regions.add(shield.rm.createShieldRegion(r, this, Bukkit.getWorld(rmanager.getByName(r).getWorld())));
 			}
 
 			return regions;
@@ -155,7 +155,7 @@ public class Protect_Residence implements Listener, Protect {
 
 		try{
 			for (String r: names){
-				regions.add(shield.rm.createShieldRegion(r, shield.residence, world));
+				regions.add(shield.rm.createShieldRegion(r, this, world));
 			}
 
 			return regions;

@@ -76,7 +76,7 @@ public abstract class ProtectTemplate implements Listener, Protect {
 
     private void init(Plugin p) {
         protect = p;
-        shield.pm.addClassToInstantiatedSet(shield.worldGuard);
+        shield.pm.addClassToInstantiatedSet(this);
         shield.log(String.format("Hooked %s v" + getVersion(), name));
     }
 

@@ -74,7 +74,7 @@ public class Protect_WorldGuard implements Listener, Protect {
 
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (WorldGuardPlugin) p;
-				shield.pm.addClassToInstantiatedSet(shield.worldGuard);
+				shield.pm.addClassToInstantiatedSet(this);
 			}
 		}
 	}
@@ -86,7 +86,7 @@ public class Protect_WorldGuard implements Listener, Protect {
 
 			if (p != null && p.isEnabled() && p.getClass().getName().equals(pack)) {
 				protect = (WorldGuardPlugin) p;
-				shield.pm.addClassToInstantiatedSet(shield.worldGuard);
+				shield.pm.addClassToInstantiatedSet(this);
 				shield.log(String.format("Hooked %s v" + getVersion(), name));
 			}
 		}
@@ -150,7 +150,7 @@ public class Protect_WorldGuard implements Listener, Protect {
 
 		for (World world: worlds){
 			for (String s: protect.getRegionManager(world).getRegions().keySet()){
-				regions.add(shield.rm.createShieldRegion(s, shield.worldGuard, world));
+				regions.add(shield.rm.createShieldRegion(s, this, world));
 			}
 		}
 
@@ -171,7 +171,7 @@ public class Protect_WorldGuard implements Listener, Protect {
 		HashSet<ShieldRegion> regions = new HashSet<ShieldRegion>();
 
 		for (ProtectedRegion region: app){
-			regions.add(shield.rm.createShieldRegion(region.getId(), shield.worldGuard, world));
+			regions.add(shield.rm.createShieldRegion(region.getId(), this, world));
 		}
 
 		return regions;
