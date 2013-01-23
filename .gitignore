@@ -17,3 +17,7 @@ Shield/bin
 Shield/.DS_Store
 
 Shield/dropbox.jardesc
+
+/.classpath
+/.settings
+/.project
