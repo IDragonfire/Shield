@@ -126,8 +126,7 @@ public class Protect_Factions extends ProtectTemplate {
         for (Faction faction : factionList) {
             addFactionToRegion(faction, regios);
         }
-
-        return null;
+        return regios;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class Protect_Factions extends ProtectTemplate {
         if (faction != null) {
             addFactionToRegion(faction, regios);
         }
-        return null;
+        return regios;
     }
 
     private void addFactionToRegion(Faction faction,
