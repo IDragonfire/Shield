@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ * 
  * You should have received a copy of the GNU General Public License
  * along with Shield.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,8 +21,10 @@ package com.malikk.shield.regions;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import com.malikk.shield.Shield;
+import com.malikk.shield.groups.ShieldGroup;
 import com.malikk.shield.plugins.Protect;
 
 /**
@@ -31,23 +33,28 @@ import com.malikk.shield.plugins.Protect;
  *
  * @see {@link #getName()}
  * @see {@link #getPluginName()}
- * @see {@link #getWorld()} 
+ * @see {@link #getWorld()}
  */
 public class ShieldRegion {
-	
+
 	private Shield plugin;
 	private String name;
 	private World world;
 	private Protect protect;
-	
+
 	public ShieldRegion (Shield instance, String name, Protect protect, World world){
 		plugin = instance;
-		
+
+		plugin.log("Creating ShieldRegion");
+		plugin.log(name);
+		plugin.log(protect.getPluginName());
+		plugin.log(world.getName());
+
 		this.name = name;
 		this.protect = protect;
 		this.world = world;
 	}
-	
+
 	/**
 	 * Gets the name of the region.
 	 * 
@@ -56,7 +63,7 @@ public class ShieldRegion {
 	public String getName(){
 		return name;
 	}
-	
+
 	/**
 	 * Gets the name of the plugin the region belongs to.
 	 * 
@@ -65,11 +72,11 @@ public class ShieldRegion {
 	public String getPluginName(){
 		return protect.getPluginName();
 	}
-	
+
 	protected Protect getProtectObject(){
 		return protect;
 	}
-	
+
 	/**
 	 * Gets the World the region is in.
 	 * 
@@ -78,25 +85,49 @@ public class ShieldRegion {
 	public World getWorld(){
 		return world;
 	}
-	
+
 	/**
-	 * Checks
-	 * @param loc
-	 * @return
+	 * Checks if the ShieldRegion contains the Location
+	 * @param loc Location to check
+	 * @return true if the region contained the Location
 	 */
 	public boolean contains(Location loc){
 		return plugin.rm.containsLoc(this, loc);
 	}
-	
-	/*
-	 * TODO Not sure if I will continue working on these methods, as not all regions will be cuboid
-	 * 
-	public Location getMaxLoc(){
-		return plugin.rm.getMaxLoc(this);
+
+	/**
+	 * Checks if the Player is the Owner of the region.
+	 * @param player Player to check
+	 * @return true if the Player is the owner
+	 */
+	public boolean isOwner(Player player){
+		ShieldGroup owners = protect.getOwners(this);
+		return (owners.contains(player) ? true : false);
 	}
-	
-	public Location getMinLoc(){
-		return plugin.rm.getMinLoc(this);
+
+	/**
+	 * Checks if the Player is a member of the region.
+	 * @param player Player to check
+	 * @return true if the Player is a member
+	 */
+	public boolean isMember(Player player){
+		ShieldGroup members = protect.getMembers(this);
+		return (members.contains(player) ? true : false);
 	}
-	*/
+
+	/**
+	 * Gets the Owners of the region.
+	 * @return ShieldGroup containing all of the owners
+	 */
+	public ShieldGroup getOwners(){
+		return protect.getOwners(this);
+	}
+
+	/**
+	 * Gets the Members of the region.
+	 * @return ShieldGroup containing all of the members
+	 */
+	public ShieldGroup getMembers(){
+		return protect.getMembers(this);
+	}
 }
