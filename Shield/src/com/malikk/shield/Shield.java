@@ -139,6 +139,11 @@ public class Shield extends JavaPlugin{
 		        loadPluginHook(new Protect_Towny(this));
 		}
 		
+	        //Attempt to load AntiShare
+		if (foundClass("com.turt2live.antishare.AntiShare")){
+		    loadPluginHook(new Protect_AntiShare(this));
+		}
+
 		//Attempt to load Factions v1.7+
                 if (foundClass("com.massivecraft.factions.Factions")){
                         loadPluginHook(new Protect_Towny(this));
